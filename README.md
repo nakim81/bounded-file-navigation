@@ -1,18 +1,51 @@
 # Bounded File Navigation (experimental)
 
+[한국어 README (README.ko.md)](README.ko.md)
+
 An agent skill and a dependency-free Python CLI for finding relevant files without returning a repository dump to the model. **This is a discovery aid, not a token-savings or correctness claim.** Search results are capped; source reading is not. The agent must expand and verify relevant evidence before answering or editing.
 
-## Try it
+## Quick Installation & Agent Usage
 
-Python 3.9+; no installation or network access required.
+### 1. Universal Agent Skills CLI (`skills.sh` / Claude Code, Codex, Cursor, etc.)
 
 ```sh
-python3 scripts/nav.py /path/to/repo 'manifest'                  # matching text-file paths
-python3 scripts/nav.py /path/to/repo 'parse_manifest' --mode lines
-python3 scripts/nav.py /path/to/repo/src 'parse_manifest' --mode lines --limit 25
+# Inspect available skills in this repo
+npx skills add nakim81/bounded-file-navigation --list
+
+# Install globally
+npx skills add nakim81/bounded-file-navigation -g -y
+
+# Or install for a specific agent
+npx skills add nakim81/bounded-file-navigation -g --agent claude-code -y
 ```
 
-Use the `SKILL.md` in an agent's skills directory (or reference it from your project's instructions). Replace `/path/to/repo` with your own directory. The script only reads files, skips common build/dependency/cache and hidden directories, scans selected text extensions, and omits files larger than 1 MB from content search. A `TRUNCATED` result means the search did **not** examine the whole tree; narrow and retry. `NO MATCH` is not proof of absence. Results are not relevance-ranked.
+### 2. Hermes Agent CLI
+
+```sh
+hermes skills install https://raw.githubusercontent.com/nakim81/bounded-file-navigation/main/SKILL.md --name bounded-file-navigation --yes
+```
+
+### 3. Direct Run via Python (Zero dependencies, Python 3.9+)
+
+```sh
+git clone https://github.com/nakim81/bounded-file-navigation.git
+cd bounded-file-navigation
+python3 scripts/nav.py /path/to/repo 'manifest'
+python3 scripts/nav.py /path/to/repo 'parse_manifest' --mode lines
+```
+
+### 4. Zero-Install Agent Prompt Hook
+
+For projects where external skill installation is restricted, paste this into your project's `AGENTS.md` or `CLAUDE.md`:
+
+```markdown
+## Bounded File Navigation Rule
+- Never dump whole files or unconstrained grep outputs into the context window.
+- First query matching file paths or bounded matching lines (10-20 hits maximum).
+- If results are TRUNCATED, treat as incomplete: narrow the subtree or refine the query.
+- Never assert absence from a capped output; read the exact line range from source to verify.
+```
+
 
 ## Evaluation before claiming savings
 
