@@ -49,18 +49,6 @@ Hermes CLI를 통해 원격 URL에서 바로 설치할 수 있습니다.
 hermes skills install https://raw.githubusercontent.com/nakim81/bounded-file-navigation/main/SKILL.md --name bounded-file-navigation --yes
 ```
 
-### 4. 에이전트가 다른 환경에서 즉석으로 사용하게 하는 프롬프트 (Prompt Hook)
-
-에이전트에게 사전 설치된 스킬이 없을 때는, 프로젝트 지침(`AGENTS.md`, `CLAUDE.md`, `.hermes.md`)에 다음 원칙을 포함해 두는 것만으로도 동일한 절차를 유도할 수 있습니다.
-
-```markdown
-## Bounded File Navigation Rule
-- 전체 디렉터리(`~` 등)를 대상으로 broad grep/find를 실행해 컨텍스트를 채우지 마십시오.
-- 파일명 목록이나 일치하는 줄(line)만 먼저 제한된 건수(10~20건)로 확인하십시오.
-- 검색 결과가 잘렸다면(TRUNCATED) 끝난 것이 아니라 범위가 넓다는 뜻이므로 하위 경로를 좁히거나 쿼리를 구체화하십시오.
-- 섣불리 파일이 없다고 판단하지 말고, 관련 핵심 파일의 특정 줄 범위만 읽어서 최종 근거를 교차 검증하십시오.
-```
-
 ## 효과 측정과 검증 기준
 
 토큰을 아꼈다는 주장이 성립하려면 **정확도가 떨어지지 않아야** 합니다. 실제 작업에 적용할 때는 아래 기준을 함께 비교해야 합니다.

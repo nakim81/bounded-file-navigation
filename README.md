@@ -34,18 +34,6 @@ python3 scripts/nav.py /path/to/repo 'manifest'
 python3 scripts/nav.py /path/to/repo 'parse_manifest' --mode lines
 ```
 
-### 4. Zero-Install Agent Prompt Hook
-
-For projects where external skill installation is restricted, paste this into your project's `AGENTS.md` or `CLAUDE.md`:
-
-```markdown
-## Bounded File Navigation Rule
-- Never dump whole files or unconstrained grep outputs into the context window.
-- First query matching file paths or bounded matching lines (10-20 hits maximum).
-- If results are TRUNCATED, treat as incomplete: narrow the subtree or refine the query.
-- Never assert absence from a capped output; read the exact line range from source to verify.
-```
-
 
 ## Evaluation before claiming savings
 
